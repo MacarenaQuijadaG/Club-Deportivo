@@ -75,9 +75,14 @@ app.get('/agregar', (req, res) => {
 
 
  // Editar
- 
+ app.get('/editar', (req, res) => {
+   
+  });
  
  // Eliminar
+ app.get('/eliminar', (req, res) => {
+   
+ });
 
 
 // Manejador de ruta no encontrada
