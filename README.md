@@ -13,7 +13,8 @@ hacer las consultas pertinentes al servidor. De no querer utilizar este apoyo si
 crear tu propia aplicación cliente. 
 
 ## Visuales
-![1](https://github.com/MacarenaQuijadaG/Club-Deportivo/assets/50925916/59473192-6f38-434d-9054-39810fe6a783)
+
+![1](https://github.com/MacarenaQuijadaG/Club-Deportivo/assets/50925916/ae84ca6a-2882-4a04-aff8-a41ab60b1b37)
 
 
 ## Empezando 🚀
