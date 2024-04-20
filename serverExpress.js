@@ -3,6 +3,7 @@ const app = express();
 const PORT = 3000;
 const fs = require('fs');
 
+
 // Puerto de salida
 app.listen(PORT, () => {
     console.log(`Servidor en http://localhost:${PORT}`);
@@ -69,14 +70,41 @@ app.get('/deportes', (req, res) => {
   });
 });
 
-
-
  // Editar
  app.get('/editar', (req, res) => {
-  
-});
- // Eliminar
+  const { nombre, precio } = req.query;
 
+  // Verifica existe un nombre
+  if (!nombre || !precio) {
+      return res.send('Ingrese nombre del deporte para editar su valor');
+  }
+
+  // Leer el archivo de deportes
+  fs.readFile('deportes.json', 'utf8', (err, data) => {
+      if (err) {
+          console.error(err);
+          return res.status(500).send('Error interno del servidor');
+      }
+      let deportes = JSON.parse(data);
+
+      // busca el deporte y actualiza
+      const index = deportes.findIndex(deporte => deporte.nombre === nombre);
+      if (index === -1) {
+          return res.send('No se encontró ningún deporte con ese nombre.');
+      }
+      deportes[index].precio = precio;
+      //guarda los cambios en el json
+      fs.writeFile('deportes.json', JSON.stringify(deportes), (err) => {
+          if (err) {
+              console.error(err);
+              return res.status(500).send('Error interno del servidor');
+          }
+          res.send(`El precio del deporte ${nombre} se actualizó a ${precio}.`);
+      });
+  });
+});
+
+ // Eliminar
  app.get('/eliminar', (req, res) => {
   const { nombre } = req.query;
 
