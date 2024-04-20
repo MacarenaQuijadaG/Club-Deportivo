@@ -43,7 +43,7 @@ app.get('/agregar', (req, res) => {
 
       // Verifica si el deporte ya existe
       if (deportes.some(deporte => deporte.nombre === nombre)) {
-          return res.send(`El deporte ${nombre} ya existe.`);
+          return res.send(`El deporte ${nombre} ya existe  .`);
       }
 
       // Agrega el deporte al arreglo
