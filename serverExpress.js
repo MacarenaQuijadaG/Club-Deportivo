@@ -1,3 +1,4 @@
+// instalacion e importacion de modulos
 const express = require('express');
 const app = express();
 const PORT = 3000;
@@ -42,7 +43,7 @@ app.get('/agregar', (req, res) => {
 
       // Verifica si el deporte ya existe
       if (deportes.some(deporte => deporte.nombre === nombre)) {
-          return res.send('El deporte ya existe.');
+          return res.send(`El deporte ${nombre} ya existe.`);
       }
 
       // Agrega el deporte al arreglo
@@ -69,6 +70,11 @@ app.get('/deportes', (req, res) => {
       res.json({ deportes: JSON.parse(data) });
   });
 });
+
+//app.get('/deportes', (req, res) => {
+ // const deportes = readDeportesFromFile();
+ // res.json(deportes);
+//});
 
  // Editar
  app.get('/editar', (req, res) => {
@@ -105,29 +111,31 @@ app.get('/deportes', (req, res) => {
 });
 
  // Eliminar
- app.get('/eliminar', (req, res) => {
-  const { nombre } = req.query;
+ app.get('/eliminar/:nombre', (req, res) => {
+  //parametro nombre 
+  const nombre = req.params.nombre; 
 
   fs.readFile('deportes.json', 'utf8', (err, data) => {
     if (err) {
       console.error(err);
-      res.send('Error interno del servidor');
-      return;
+      return res.status(500).send('Error interno del servidor');
     }
 
     let deportes = JSON.parse(data);
 
-    // busqueda de deporte a lemiminar
-    const deportesFiltrados = deportes.filter(d => d.nombre !== nombre);
+    // busca para eliminar
+    const deporteIndex = deportes.findIndex(d => d.nombre === nombre);
 
-    // verifica si se elimino el deporte
-    if (deportes.length !== deportesFiltrados.length) {
-      // lo borra de json
-      fs.writeFile('deportes.json', JSON.stringify(deportesFiltrados), (err) => {
+    // verifica
+    if (deporteIndex !== -1) {
+  
+      deportes.splice(deporteIndex, 1);
+
+      // borra el deporte del json
+      fs.writeFile('deportes.json', JSON.stringify(deportes), (err) => {
         if (err) {
           console.error(err);
-          res.send('Error interno del servidor');
-          return;
+          return res.status(500).send('Error interno del servidor');
         }
         res.send('Deporte eliminado exitosamente');
       });
